@@ -4,13 +4,14 @@
 //=======================================================
 
 //colocamos un token fijo aqui para efecto de demo. expira en octubre 2020.
-//pueden cambiarlo por un token suyo generado mediante jwt
+//pueden cambiarlo por un token suyo generado mediante jwt. Actualiar el 'SECRET' en server.js si usa su propio token
 var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7InJvbGUiOiJBRE1JTl9ST0xFIiwiZXN0YWRvIjp0cnVlLCJnb29nbGUiOmZhbHNlLCJfaWQiOiI1ZTlhMmNjMjcyZDUyZDM4ODBhYTc1NDUiLCJub21icmUiOiJUZXN0IDEiLCJlbWFpbCI6InRlc3QxQGdtYWlsLmNvbSIsIl9fdiI6MCwiaW1nIjoiNWU5YTJjYzI3MmQ1MmQzODgwYWE3NTQ1XzY4My5qcGcifSwiaWF0IjoxNTg4MDU1ODc0LCJleHAiOjE2MDM2MDc4NzR9.RJYxPXl_6xQO6nWMt-4_D-hl3eXc6Zqs7rlxURm40CM';
+
 // levantar un socket desde este cliente hacia el servidor usando el servicio 'io'
-// primero: crear instancia del socket
-var socket = io('http://localhost:3000', {
-    query: { token: token }
-});
+// crear instancia del socket del lado cliente y enviar el token al servidor con el evento de conexion.
+var socket = io({ query: { token } });
+//otra forma de enviar el token
+//var socket = io(`http://localhost:3000?token=${token}`);
 
 // abrir conexion a travez del socket
 socket.on('connect', () => {

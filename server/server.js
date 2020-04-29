@@ -38,7 +38,7 @@ require('./sockets/socket');
 //este construido directamente sobre'http' y no sobre 'express'
 **/
 server.listen(port, (err) => {
-    // siay error indicarlo
+    // si hay error indicarlo
     if (err) throw new Error(err);
     //anunciar en la consola que el servidor esta online y escuchando peticiones
     console.log(`Servidor corriendo en puerto ${ port }`);

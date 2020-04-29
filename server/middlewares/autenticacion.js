@@ -1,7 +1,7 @@
 //importar libreria jsonwebtoken
 const jwt = require('jsonwebtoken');
 
-//pre-requisitos del Token, aqui definidos para efectos de prueba
+//SECRET del Token, definido aqui para simplicidad en este demo/prueba
 process.env.TOKEN_SEED = process.env.TOKEN_SEED || 'este-es-el-secret-de-desarrollo';
 
 //====================
@@ -9,7 +9,7 @@ process.env.TOKEN_SEED = process.env.TOKEN_SEED || 'este-es-el-secret-de-desarro
 //====================
 //verificar que el token es valido en caso positivose valida con 'next()'
 // la variable 'decoded' contendra el 'payload' del token
-let verificaToken = (client, next, err) => {
+let verificaToken = (client, next) => {
     // validar que exista el parametro 'query' dentro del socket nuevo y que se haya recibido un 'token'
     if (client.handshake.query && client.handshake.query.token) {
         //en caso positivo decodificar el token con jwt
