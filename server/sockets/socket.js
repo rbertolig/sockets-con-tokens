@@ -24,6 +24,45 @@ io.use(verificaToken)
             console.log('Cliente remoto OFF-LINE');
         });
 
-        // implementar resto de la comunicacion via sockets aca
+        /**
+         *  implementar resto de la comunicacion via sockets aca
+         **/
 
+        // capturar cuando sockets del cliente envian un mensaje
+        // validarlo segun permiso del usuario extraido del user_role en el token
+        client.on('enviarMensaje', (data, callback) => {
+            console.log(`Permisos de ${client.decoded.usuario.nombre}: ${client.decoded.usuario.role}`)
+            console.log('Mensaje recibido:', data);
+            if (!callback) return; // validacion para evitar crash si se hizo emit sin callback
+            // evaluar role del cliente para validar permiso segun token
+            // en 'client.decoded.usuario' esta el payload del token
+            switch (client.decoded.usuario.role) {
+                // Role no autorizado
+                case 'USER_ROLE':
+                    console.log(`Usuario: ${client.decoded.usuario.nombre} PERMISO DENEGADO!`);
+                    callback({
+                        ok: false,
+                        message: 'Usted no tiene permiso para realizar esa accion'
+                    });
+                    break;
+                    // Role autorizado
+                case 'ADMIN_ROLE':
+                    callback({
+                        ok: true,
+                        message: 'Permiso condedido. Su mensaje ha sido procesado'
+                    });
+                    // implementar acciones para permiso concedido, ej:
+                    console.log(`Usuario ${client.decoded.usuario.nombre} AUTORIZADO!`);
+
+                    break;
+                    // cualquier otra cosa
+                default:
+                    callback({
+                        ok: false,
+                        message: 'Usted no tiene permiso para enviar mensajes'
+                    });
+            }
+            // resto de logica 
+
+        });
     });
